@@ -149,6 +149,7 @@ class WordpressToTypecho_Action extends Typecho_Widget implements Widget_Interfa
                 'type'      	=>  'post_tag' == $term['taxonomy'] ? 'tag' : 'category',
                 'description'   =>  $term['description'],
                 'count'      	=>  $term['count'],
+                'parent'      	=>  $term['parent'] ? $term['parent'] : 0,
             ));
             
             /** 转换关系表 */
