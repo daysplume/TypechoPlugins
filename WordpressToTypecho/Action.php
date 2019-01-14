@@ -145,10 +145,11 @@ class WordpressToTypecho_Action extends Typecho_Widget implements Widget_Interfa
             $metas->insert(array(
                 'mid'           =>  $term['term_taxonomy_id'],
                 'name'          =>  $term['name'],
-                'slug'          =>  'post_tag' == $term['taxonomy'] ? Typecho_Common::slugName($term['name']) : $term['slug'],
+                'slug'          =>  $term['slug'],
                 'type'      	=>  'post_tag' == $term['taxonomy'] ? 'tag' : 'category',
                 'description'   =>  $term['description'],
                 'count'      	=>  $term['count'],
+                'parent'      	=>  $term['parent'] ? $term['parent'] : 0,
             ));
             
             /** 转换关系表 */
@@ -178,7 +179,7 @@ class WordpressToTypecho_Action extends Typecho_Widget implements Widget_Interfa
                     'slug'          =>  Typecho_Common::slugName(urldecode($row['post_name']), $row['ID'], 128),
                     'created'       =>  strtotime($row['post_date_gmt']) + $gmtOffset,
                     'modified'      =>  strtotime($row['post_modified_gmt']) + $gmtOffset,
-                    'text'          =>  $row['post_content'],
+                    'text'          =>  $row['post_content_filtered'] ? '<!--markdown-->' . $row['post_content_filtered'] : $row['post_content'],
                     'order'         =>  $row['menu_order'],
                     'authorId'      =>  $row['post_author'],
                     'template'      =>  NULL,
